@@ -14,8 +14,8 @@ const pkgRoot = resolve(here, '..')
 // Resolve tsc even when hoisted to the workspace root node_modules.
 const tscBin = createRequire(import.meta.url).resolve('typescript/bin/tsc')
 
-describe('example compiles', () => {
-  it('examples/express-url-summary.ts typechecks', () => {
+describe('examples compile', () => {
+  it('all files under examples/ typecheck against the public type surface', () => {
     let ok = true
     let output = ''
     try {

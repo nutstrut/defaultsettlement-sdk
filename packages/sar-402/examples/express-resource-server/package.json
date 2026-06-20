@@ -1,0 +1,21 @@
+{
+  "name": "sar-402-express-resource-server-example",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Runnable demo: add SAR-402 receipts to an Express x402 resource server (record mode, fail-open).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx server.ts",
+    "start:fail-open": "DEFAULTVERIFIER_URL=http://127.0.0.1:9 tsx server.ts"
+  },
+  "dependencies": {
+    "@defaultsettlement/sar-402": "^0.1.0",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.0",
+    "tsx": "^4.19.0"
+  }
+}
