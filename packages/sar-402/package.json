@@ -1,0 +1,54 @@
+{
+  "name": "@defaultsettlement/sar-402",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Express middleware that emits SAR-402 Settlement Attestation Receipts for paid x402 endpoints. Fail-open, evidence-only. The verifier never controls your API, funds, authorization, or delivery.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "x402",
+    "sar-402",
+    "settlement",
+    "attestation",
+    "receipt",
+    "express",
+    "middleware",
+    "default-settlement"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration.test.ts"
+  },
+  "peerDependencies": {
+    "express": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
