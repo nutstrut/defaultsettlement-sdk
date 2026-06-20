@@ -28,14 +28,15 @@ app.use(express.json())
 // Add SAR-402 to the paid routes. `record` buffers the response so it can attach
 // receipt headers; `observe` is fire-and-forget. Either way, if DefaultVerifier
 // is down, your response still ships — fail-open is guaranteed.
-// NOTE (Phase 1): attest-service does not yet expose a SAR-402 receipt-ingest
-// route, so against the default endpoint the receipt call fails open (delivery is
-// unaffected). Point `endpoint`/`receiptPath` at a receiver you control to see the
-// full flow, or read the receipt from the `onReceipt` callback below.
+// NOTE: `POST /v1/sar-402/receipts` now exists in attest-service and matches the
+// SDK default path, so the default endpoint issues live receipts. If that endpoint
+// is unreachable, slow, or errors, the receipt call fails open (delivery is
+// unaffected). Override `endpoint`/`receiptPath` to target a self-hosted or test
+// receiver, or read the receipt from the `onReceipt` callback below.
 app.use(
   sar402({
     endpoint: process.env.DEFAULTVERIFIER_URL ?? 'https://defaultverifier.com',
-    receiptPath: process.env.SAR402_RECEIPT_PATH, // undefined => proposed default
+    receiptPath: process.env.SAR402_RECEIPT_PATH, // undefined => default /v1/sar-402/receipts
     mode: 'record',
     apiKey: process.env.DEFAULTSETTLEMENT_API_KEY,
     includeResponseBodyHash: true, // digest only — the raw body is never sent

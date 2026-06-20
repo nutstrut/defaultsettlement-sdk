@@ -7,14 +7,15 @@
  * middleware catches it and fails open so the resource server's response is
  * never blocked.
  *
- * ⚠️ BACKEND STATUS (Phase 1): there is currently **no** live attest-service
- * route that ingests a resource-server-built `sar_402_settlement_v0.1` receipt.
- * The existing `/v1/attest` route takes a different contract (continuity_input +
- * sar_input, forwarded to internal services) and is not a drop-in target. Until
- * an ingest endpoint is exposed, point `endpoint`/`receiptPath` at your own
- * receiver; against the documented default the receipt call will fail open
- * (logged, `onError` fires, no receipt headers) and delivery is unaffected.
- * See {@link PROPOSED_RECEIPT_PATH}.
+ * BACKEND STATUS: `POST /v1/sar-402/receipts` now exists in attest-service
+ * (commit 8e9f8f3) and matches this SDK's default `receiptPath`. It records
+ * normalized SAR-402 evidence and returns receipt metadata (`receipt_id`,
+ * `explorer_url`, and lookup fields). The SDK still **fails open** if that
+ * endpoint is unreachable, slow, or errors: the middleware catches the
+ * {@link DefaultVerifierError}, logs, fires `onError`, omits receipt headers,
+ * and delivery is never blocked. `receiptPath` remains configurable for
+ * self-hosted, test, or future endpoint variants.
+ * See {@link DEFAULT_RECEIPT_PATH}.
  */
 
 import { DefaultVerifierError } from './errors.js'
@@ -22,20 +23,24 @@ import { Sar402Payload, SarReceiptResult, Sar402Mode } from './types.js'
 
 export const DEFAULT_ENDPOINT = 'https://defaultverifier.com'
 /**
- * Proposed ingest path for resource-server-emitted SAR-402 receipts.
+ * Default ingest path for resource-server-emitted SAR-402 receipts.
  *
- * NOTE: this route is **not yet exposed** by attest-service. It is the proposed
- * shape, used as the default so that once the backend exposes it, existing
- * integrations work unchanged. There is no claim that POSTing here today
- * succeeds — it is expected to fail open until the endpoint exists. Override via
- * `receiptPath` to target a receiver you control.
+ * `POST /v1/sar-402/receipts` now exists in attest-service (commit 8e9f8f3) and
+ * matches this default, so integrations that keep the default issue live
+ * receipts with no code change. Override via `receiptPath` to target a
+ * self-hosted, test, or future endpoint variant.
  */
-export const PROPOSED_RECEIPT_PATH = '/v1/sar-402/receipts'
+export const DEFAULT_RECEIPT_PATH = '/v1/sar-402/receipts'
+/**
+ * @deprecated Use {@link DEFAULT_RECEIPT_PATH}. Retained as an alias for
+ * backward compatibility; the route is no longer merely "proposed" — it exists.
+ */
+export const PROPOSED_RECEIPT_PATH = DEFAULT_RECEIPT_PATH
 export const DEFAULT_TIMEOUT_MS = 4000
 
 export interface ClientOptions {
   endpoint?: string
-  /** Path appended to `endpoint`. Defaults to {@link PROPOSED_RECEIPT_PATH} (pending backend support). */
+  /** Path appended to `endpoint`. Defaults to {@link DEFAULT_RECEIPT_PATH}. */
   receiptPath?: string
   apiKey?: string
   timeoutMs?: number
@@ -66,7 +71,7 @@ export class DefaultVerifierClient {
 
   constructor(opts: ClientOptions = {}) {
     this.endpoint = (opts.endpoint ?? DEFAULT_ENDPOINT).replace(/\/+$/, '')
-    this.receiptPath = opts.receiptPath ?? PROPOSED_RECEIPT_PATH
+    this.receiptPath = opts.receiptPath ?? DEFAULT_RECEIPT_PATH
     this.apiKey = opts.apiKey
     this.timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS
     const impl = opts.fetchImpl ?? globalThis.fetch

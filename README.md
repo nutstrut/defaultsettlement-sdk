@@ -12,7 +12,7 @@ Public SDK for emitting **Settlement Attestation Receipts (SAR-402)** around pai
 
 | Package | Status | What it does |
 | --- | --- | --- |
-| [`@defaultsettlement/sar-402`](packages/sar-402) | Phase 1 | Node/TypeScript Express middleware that lets an x402 resource server emit a Settlement Attestation Receipt after a paid action, with a live Explorer link — without giving Default Settlement control over the API, funds, authorization, or delivery logic. |
+| [`@defaultsettlement/sar-402`](packages/sar-402) | Phase 1 | Node/TypeScript Express middleware that lets an x402 resource server emit a Settlement Attestation Receipt after a paid action — without giving Default Settlement control over the API, funds, authorization, or delivery logic. The backend ingest endpoint `POST /v1/sar-402/receipts` is live and matches the SDK default path; the SDK is fail-open and observe/record only (no gate mode). |
 
 See [`packages/sar-402/README.md`](packages/sar-402/README.md) for install and usage.
 

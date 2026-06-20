@@ -36,6 +36,7 @@ export type { BuildPayloadOptions } from './normalize.js'
 export {
   DefaultVerifierClient,
   DEFAULT_ENDPOINT,
+  DEFAULT_RECEIPT_PATH,
   PROPOSED_RECEIPT_PATH,
   DEFAULT_TIMEOUT_MS,
 } from './client.js'

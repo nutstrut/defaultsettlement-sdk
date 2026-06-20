@@ -104,35 +104,29 @@ normalizes it into a SAR-402 receipt, POSTs it to DefaultVerifier, and (in
 (b) attach receipt headers, then flushes. The added latency is capped at
 `timeoutMs`; if DefaultVerifier is slow or down, the response ships anyway.
 
-## Backend status (Phase 1) — read this before relying on live receipts
+## Backend status — the default ingest endpoint exists
 
-The middleware is structurally complete, but **live receipt issuance depends on a
-backend endpoint that attest-service does not yet expose.** There is currently no
-attest-service route that ingests a resource-server-built `sar_402_settlement_v0.1`
-receipt:
+The receipt-ingest endpoint is **live**. `POST /v1/sar-402/receipts` now exists in
+attest-service (commit `8e9f8f3`) and **matches the SDK default `receiptPath`**:
 
-- `/v1/sar-402/receipts` — the proposed ingest path used as the SDK default — **does
-  not exist yet**.
-- `/v1/attest` exists but takes a *different* contract (`continuity_input` +
-  `sar_input`, forwarded to internal services); it is **not** a drop-in receipt
-  ingest route.
-- `/pay/url-summary` generates a receipt itself as an all-in-one paid action; it is
-  not a generic ingest endpoint.
-
-Consequences:
-
+- `POST /v1/sar-402/receipts` records normalized SAR-402 evidence and returns
+  receipt metadata — `receipt_id`, `explorer_url`, and receipt-lookup fields.
 - The default `endpoint` (`https://defaultverifier.com`) + default `receiptPath`
-  (`/v1/sar-402/receipts`) is the **proposed** target. Posting there today is
-  expected to **fail open** (logged, `onError` fires, no receipt headers). Your
-  paid delivery is unaffected.
-- To exercise the full flow now, point the SDK at a receiver you control via
-  `endpoint` and/or `receiptPath`, or use the local `onReceipt` callback to capture
-  the payload.
-- Once an ingest endpoint is exposed by attest-service, integrations that kept the
-  defaults will start issuing live receipts with no code change.
+  (`/v1/sar-402/receipts`) therefore issues live receipts with no code change.
+- The SDK still **fails open** if that endpoint is unreachable, slow, or returns an
+  error: the receipt call is logged, `onError` fires, no receipt headers are
+  attached, and your paid delivery is unaffected.
+- `receiptPath` remains **configurable** for self-hosted, test, or future endpoint
+  variants — point `endpoint`/`receiptPath` at a receiver you control, or capture
+  the payload via the local `onReceipt` callback.
 
-This is a backend-availability gap, not an SDK defect — the normalization,
-authority binding, fail-open, and header logic are complete and tested.
+Explorer status: the backend returns `receipt_id` and `explorer_url`, and backend
+receipt-lookup / recent-receipt compatibility is implemented. Full public Explorer
+**frontend** rendering should still be visually verified before claiming the
+Explorer UI is fully complete.
+
+The normalization, authority binding, fail-open, and header logic are complete and
+tested.
 
 ## Fail-open behavior (hard guarantee)
 
@@ -175,7 +169,7 @@ be present and the response is otherwise unchanged.
 ```ts
 sar402({
   endpoint?: string,                 // default https://defaultverifier.com
-  receiptPath?: string,              // default /v1/sar-402/receipts (PROPOSED — not yet live; see Backend status)
+  receiptPath?: string,              // default /v1/sar-402/receipts (live; override for self-hosted/test variants)
   mode?: 'observe' | 'record',       // default 'observe'   ('gate' is rejected)
   apiKey?: string,
   includeResponseBodyHash?: boolean, // default false
@@ -194,10 +188,12 @@ sar402({
   middleware never holds authority to withhold delivery. (Gate mode — where a
   verdict can block release under a *non-verifier* gate controller — is defined
   in the SAR-402 profile but is out of scope for this SDK.)
-- **No live ingest endpoint yet.** The default receipt route is *proposed* and not
-  yet exposed by attest-service — see [Backend status](#backend-status-phase-1--read-this-before-relying-on-live-receipts).
-  Until it lands, receipts fail open against the default and you should target a
-  receiver you control via `endpoint`/`receiptPath`.
+- **Explorer frontend not yet fully verified.** The backend ingest endpoint
+  exists and returns `receipt_id`/`explorer_url` with lookup compatibility — see
+  [Backend status](#backend-status--the-default-ingest-endpoint-exists). Full
+  public Explorer **frontend** rendering should still be visually verified before
+  it is claimed complete. The SDK remains fail-open if the endpoint is
+  unreachable; `receiptPath` stays configurable for self-hosted/test variants.
 - **Direct-to-DefaultVerifier only.** Phase 1 posts directly (no local agent).
   Local, self-hosted, and air-gapped agents are planned, not present.
 - **No offline verification.** This SDK does not verify receipts offline; it

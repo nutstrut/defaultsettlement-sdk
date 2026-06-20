@@ -91,7 +91,7 @@ describe('record mode', () => {
     expect(JSON.stringify(sent)).not.toContain('super-sensitive-response-body')
   })
 
-  it('uses the configured endpoint (default proposed path)', async () => {
+  it('uses the configured endpoint (default receipt path)', async () => {
     const { impl, calls } = okFetch()
     await drive(
       { mode: 'record', fetchImpl: impl, endpoint: 'https://verifier.internal' },
@@ -100,7 +100,7 @@ describe('record mode', () => {
         r.status(200).json({ ok: true })
       },
     )
-    // The default receipt path is proposed/pending; it is appended verbatim.
+    // The default receipt path (/v1/sar-402/receipts) is appended verbatim.
     expect(calls[0].url).toBe('https://verifier.internal/v1/sar-402/receipts')
   })
 

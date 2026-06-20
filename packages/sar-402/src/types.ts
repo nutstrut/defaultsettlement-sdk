@@ -235,8 +235,9 @@ export interface Sar402Config {
   endpoint?: string
   /**
    * Path appended to `endpoint` for receipt ingest. Default: `/v1/sar-402/receipts`.
-   * NOTE: that default route is not yet exposed by attest-service (Phase 1) — set
-   * this (and/or `endpoint`) to a receiver you control until backend support lands.
+   * That route now exists in attest-service and matches this default. Override
+   * this (and/or `endpoint`) to target a self-hosted, test, or future endpoint
+   * variant. The middleware fails open if the endpoint is unreachable or errors.
    */
   receiptPath?: string
   /** observe | record. Default: observe. `gate` is rejected. */
