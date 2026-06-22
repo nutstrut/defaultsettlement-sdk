@@ -78,7 +78,7 @@ On success the response carries:
 ```
 X-DefaultSettlement-Mode: record
 X-DefaultSettlement-Receipt-ID: <id assigned by DefaultVerifier>
-X-DefaultSettlement-Explorer-URL: https://defaultverifier.com/explorer?receipt_id=<id>
+X-DefaultSettlement-Explorer-URL: https://sarexplorer.com/?receipt_id=<id>
 ```
 
 and the JSON body is your own paid result:

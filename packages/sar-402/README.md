@@ -121,9 +121,8 @@ attest-service (commit `8e9f8f3`) and **matches the SDK default `receiptPath`**:
   the payload via the local `onReceipt` callback.
 
 Explorer status: the backend returns `receipt_id` and `explorer_url`, and backend
-receipt-lookup / recent-receipt compatibility is implemented. Full public Explorer
-**frontend** rendering should still be visually verified before claiming the
-Explorer UI is fully complete.
+receipt-lookup / recent-receipt compatibility is implemented. SAR Explorer is live
+at https://sarexplorer.com as the canonical public receipt inspection surface.
 
 The normalization, authority binding, fail-open, and header logic are complete and
 tested.
@@ -188,11 +187,10 @@ sar402({
   middleware never holds authority to withhold delivery. (Gate mode — where a
   verdict can block release under a *non-verifier* gate controller — is defined
   in the SAR-402 profile but is out of scope for this SDK.)
-- **Explorer frontend not yet fully verified.** The backend ingest endpoint
+- **SAR Explorer is live.** The backend ingest endpoint
   exists and returns `receipt_id`/`explorer_url` with lookup compatibility — see
-  [Backend status](#backend-status--the-default-ingest-endpoint-exists). Full
-  public Explorer **frontend** rendering should still be visually verified before
-  it is claimed complete. The SDK remains fail-open if the endpoint is
+  [Backend status](#backend-status--the-default-ingest-endpoint-exists). SAR Explorer
+  is the canonical public receipt inspection surface. The SDK remains fail-open if the endpoint is
   unreachable; `receiptPath` stays configurable for self-hosted/test variants.
 - **Direct-to-DefaultVerifier only.** Phase 1 posts directly (no local agent).
   Local, self-hosted, and air-gapped agents are planned, not present.
