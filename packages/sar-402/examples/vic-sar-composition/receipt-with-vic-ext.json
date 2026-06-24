@@ -1,0 +1,78 @@
+{
+  "receipt_id": "sha256:7d2a1b9c8e6f4a3d5c0b2e1f9a8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d",
+  "schema_id": "sar_402_settlement_v0.1",
+  "profile": "sar-402",
+  "sar_type": "Settlement Attestation Receipt",
+  "sar_verdict": "PASS",
+  "verification_point": "post_delivery",
+  "verification_mode": "record",
+  "authority_binding": {
+    "verifier_has_execution_authority": false,
+    "verifier_controls_resource_release": false,
+    "resource_server_controls_delivery": true,
+    "acting_party": "resource_server"
+  },
+  "payment_state": "verified",
+  "delivery_state": "confirmed",
+  "settlement_state": "delivered",
+  "continuity": {
+    "object_continuity": "PASS",
+    "constraint_continuity": "PASS",
+    "temporal_continuity": "PASS",
+    "authority_continuity": "PASS",
+    "executor_continuity": "PASS"
+  },
+  "payment": {
+    "resource": "https://api.example.com/v1/agentic-commerce-consulting/FC-A-0001-SAR-FIXTURE-001",
+    "quote_id": "q_vic_sar_fixture_001",
+    "price": { "amount": "1210000000", "asset": "0x3Af7F644A147F75004E022a8623bf14FEb9AFf6d", "decimals": 6 },
+    "amount_paid": { "amount": "1210000000", "asset": "0x3Af7F644A147F75004E022a8623bf14FEb9AFf6d", "decimals": 6 },
+    "asset": "0x3Af7F644A147F75004E022a8623bf14FEb9AFf6d",
+    "chain": "eip155:421614",
+    "recipient": "0xef58a240401d47de0CbeCCAFf814f90d65b30Ea0",
+    "payer": "0xD096D1326Cd60bd322ce8A2F7d462735Bf65Ba13",
+    "payment_ref": "0x7e9480557acd0eeebb416e683d01f0524b1e313d8e09abbb9866d5e78b245381"
+  },
+  "delivery": {
+    "delivered_resource": "https://api.example.com/v1/agentic-commerce-consulting/FC-A-0001-SAR-FIXTURE-001",
+    "evidence_type": "http_response",
+    "evidence_digest": "sha256:3b8c2f0d9a1e4c6b7d5f8a2e1c0b9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c",
+    "status_code": 200,
+    "delivered_at": "2026-06-20T14:41:12.000Z"
+  },
+  "identity": {
+    "payer": "0xD096D1326Cd60bd322ce8A2F7d462735Bf65Ba13",
+    "derived_identity": {
+      "registration_mode": "derived_from_settlement",
+      "derived_agent_id": "agent:x402:eip155:421614:0xD096D1326Cd60bd322ce8A2F7d462735Bf65Ba13",
+      "identity_status": "derived"
+    }
+  },
+  "timestamps": {
+    "quoted_at": "2026-06-20T14:40:55.000Z",
+    "paid_at": "2026-06-20T14:41:08.000Z",
+    "verified_at": "2026-06-20T14:41:11.000Z",
+    "delivered_at": "2026-06-20T14:41:12.000Z",
+    "issued_at": "2026-06-20T14:41:12.500Z"
+  },
+  "issuer": {
+    "verifier": "https://defaultverifier.com",
+    "verifier_version": "sar-402/0.1",
+    "environment": "test"
+  },
+  "integrity": {
+    "digest_alg": "sha256",
+    "canonicalization": "sorted_keys_compact_v0",
+    "digest": "sha256:7d2a1b9c8e6f4a3d5c0b2e1f9a8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d"
+  },
+  "notes": "Cross-layer audit fixture. The _ext.invoice envelope is an additive, non-authoritative audit link to a VIC commitment. SAR attests delivery evidence only; it does not verify the invoice, tax breakdown, fiscal jurisdiction, or payment execution, and it does not authorize release or assert legal finality. VIC remains authoritative for invoice and fiscal semantics.",
+  "_ext": {
+    "invoice": {
+      "schema_id": "vic.invoice.v1",
+      "invoice_hash": "0xad9cfdcbd843098786ad0f84068c8810246706e1ffaa1969bba83948352dea2c",
+      "chain_id": 421614,
+      "registrar": "0xa8C5b7D5B413297343ca6CeCe3931F9770D7A2FD",
+      "payment_tx_ref": "0x7e9480557acd0eeebb416e683d01f0524b1e313d8e09abbb9866d5e78b245381"
+    }
+  }
+}

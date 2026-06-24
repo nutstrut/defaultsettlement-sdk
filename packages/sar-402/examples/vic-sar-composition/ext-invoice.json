@@ -1,0 +1,11 @@
+{
+  "_ext": {
+    "invoice": {
+      "schema_id": "vic.invoice.v1",
+      "invoice_hash": "0xad9cfdcbd843098786ad0f84068c8810246706e1ffaa1969bba83948352dea2c",
+      "chain_id": 421614,
+      "registrar": "0xa8C5b7D5B413297343ca6CeCe3931F9770D7A2FD",
+      "payment_tx_ref": "0x7e9480557acd0eeebb416e683d01f0524b1e313d8e09abbb9866d5e78b245381"
+    }
+  }
+}

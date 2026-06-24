@@ -1,0 +1,50 @@
+{
+  "description": "On-chain VIC commitment data, copied verbatim from the upstream VIC fixture (javierpmateos/verifiable-invoice-commitment, fixtures/sar-composition). Provided here only so the SAR-side README's verification flow can be replayed without leaving this repo. VIC remains authoritative for everything in this file.",
+  "network": {
+    "chain_id": 421614,
+    "name": "Arbitrum Sepolia",
+    "rpc": "https://sepolia-rollup.arbitrum.io/rpc"
+  },
+  "registrar": "0xa8C5b7D5B413297343ca6CeCe3931F9770D7A2FD",
+  "invoice_hash": "0xad9cfdcbd843098786ad0f84068c8810246706e1ffaa1969bba83948352dea2c",
+  "payment_tx_ref": "0x7e9480557acd0eeebb416e683d01f0524b1e313d8e09abbb9866d5e78b245381",
+  "transactions": {
+    "mock_usdc_deploy": {
+      "tx_hash": "0xc4a871ec0e2179e040dc8c900999d519569589ef5ab33cf43b04ad4e35de2dea",
+      "address": "0x3Af7F644A147F75004E022a8623bf14FEb9AFf6d",
+      "arbiscan_url": "https://sepolia.arbiscan.io/tx/0xc4a871ec0e2179e040dc8c900999d519569589ef5ab33cf43b04ad4e35de2dea"
+    },
+    "mint": {
+      "tx_hash": "0xb712480c41ab5bf03877127c0e6f0cab77ab80410deaa87233297dadb6d9c576",
+      "amount": "10000000000",
+      "amount_human": "10,000 mUSDC"
+    },
+    "payment": {
+      "tx_hash": "0x7e9480557acd0eeebb416e683d01f0524b1e313d8e09abbb9866d5e78b245381",
+      "block_number": 280574071,
+      "from": "0xD096D1326Cd60bd322ce8A2F7d462735Bf65Ba13",
+      "to": "0xef58a240401d47de0CbeCCAFf814f90d65b30Ea0",
+      "amount": "1210000000",
+      "amount_human": "1,210 mUSDC",
+      "arbiscan_url": "https://sepolia.arbiscan.io/tx/0x7e9480557acd0eeebb416e683d01f0524b1e313d8e09abbb9866d5e78b245381"
+    },
+    "commitment": {
+      "tx_hash": "0x58ec74baaaaadf376fdff892fefb897d43019fb3fc880510f5e3c6b61a8a15a2",
+      "block_number": 280574076,
+      "arbiscan_url": "https://sepolia.arbiscan.io/tx/0x58ec74baaaaadf376fdff892fefb897d43019fb3fc880510f5e3c6b61a8a15a2"
+    }
+  },
+  "parties": {
+    "issuer": {
+      "address": "0xD096D1326Cd60bd322ce8A2F7d462735Bf65Ba13",
+      "tax_id_scheme": "AR-CUIT",
+      "tax_id": "30-12345678-9"
+    },
+    "recipient": {
+      "address": "0xef58a240401d47de0CbeCCAFf814f90d65b30Ea0",
+      "tax_id_scheme": "MX-RFC",
+      "tax_id": "CLIX850101AB1",
+      "note": "Runtime-generated wallet, private key discarded after fixture creation."
+    }
+  }
+}
