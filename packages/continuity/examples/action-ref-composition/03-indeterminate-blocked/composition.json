@@ -1,0 +1,30 @@
+{
+  "_note": "Evaluator uncertain (completed); policy blocked. Positive blocked outcome receipt.",
+  "_cross_reference": {
+    "action_ref_join_primitive": "Action Commitment — see packages/sar-402/examples/action-commitment-composition/03a-indeterminate-blocked",
+    "sar_delivery_receipt": null
+  },
+  "trusted_keys": {
+    "_note": "Identity-to-signing-key binding: a verifier must hold the trusted Ed25519 public key for each signer identity (resolved out of band) and verify each receipt against it. These seed-derived keys are illustrative only.",
+    "evaluator": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    "executor": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA="
+    }
+  },
+  "action_ref": "sha256:ced32bac4024fe71a52006de56fe872c5dbbd169c85f8e15aeb4fa11d04b9955",
+  "composition": {
+    "ok": true,
+    "actionRef": "sha256:ced32bac4024fe71a52006de56fe872c5dbbd169c85f8e15aeb4fa11d04b9955",
+    "joined": {
+      "evaluation": true,
+      "outcome": true,
+      "sar": false
+    },
+    "findings": [],
+    "appliedAssumptions": []
+  }
+}

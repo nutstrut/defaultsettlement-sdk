@@ -1,0 +1,36 @@
+{
+  "_note": "Evaluator did not complete (non-completion). No outcome or delivery evidence. Absence of an Execution Outcome Receipt is a verifier finding (audit gap), NOT an outcome state and NOT NO_EMISSION.",
+  "_cross_reference": {
+    "action_ref_join_primitive": "Action Commitment — see packages/sar-402/examples/action-commitment-composition/05-evaluator-timeout",
+    "sar_delivery_receipt": null
+  },
+  "trusted_keys": {
+    "_note": "Identity-to-signing-key binding: a verifier must hold the trusted Ed25519 public key for each signer identity (resolved out of band) and verify each receipt against it. These seed-derived keys are illustrative only.",
+    "evaluator": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    "executor": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA="
+    }
+  },
+  "action_ref": "sha256:eadaa91c42c37e831fd7f2266acdaaa0e5847e1483192d4ac81419a47a4ee27c",
+  "composition": {
+    "ok": false,
+    "actionRef": "sha256:eadaa91c42c37e831fd7f2266acdaaa0e5847e1483192d4ac81419a47a4ee27c",
+    "joined": {
+      "evaluation": true,
+      "outcome": false,
+      "sar": false
+    },
+    "findings": [
+      {
+        "code": "missing_execution_outcome_receipt",
+        "kind": "audit_gap",
+        "message": "No Execution Outcome Receipt was supplied. Absence of an Execution Outcome Receipt is a verifier finding (audit gap), not an outcome state. It proves blocked execution only under a separately verifiable complete-emission guarantee applied explicitly."
+      }
+    ],
+    "appliedAssumptions": []
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "_note": "Evaluator denied; executor blocked; no SAR delivery receipt (nothing delivered).",
+  "_cross_reference": {
+    "action_ref_join_primitive": "Action Commitment — see packages/sar-402/examples/action-commitment-composition/02-fail-blocked",
+    "sar_delivery_receipt": null
+  },
+  "trusted_keys": {
+    "_note": "Identity-to-signing-key binding: a verifier must hold the trusted Ed25519 public key for each signer identity (resolved out of band) and verify each receipt against it. These seed-derived keys are illustrative only.",
+    "evaluator": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    "executor": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA="
+    }
+  },
+  "action_ref": "sha256:91ad5ff557ba7b6a7a49ea2f79106a2cf054d88c89165d8becdf01f863f290f0",
+  "composition": {
+    "ok": true,
+    "actionRef": "sha256:91ad5ff557ba7b6a7a49ea2f79106a2cf054d88c89165d8becdf01f863f290f0",
+    "joined": {
+      "evaluation": true,
+      "outcome": true,
+      "sar": false
+    },
+    "findings": [],
+    "appliedAssumptions": []
+  }
+}

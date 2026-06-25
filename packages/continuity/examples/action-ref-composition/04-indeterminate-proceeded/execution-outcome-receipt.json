@@ -1,0 +1,13 @@
+{
+  "schema_id": "ds.execution_outcome.v0.1",
+  "action_ref": "sha256:c1ae08f0f916b8ef9ea9effc2afe5cbc102ae3c5dfd3e0343de42b58593b0917",
+  "executor_id": "agent:example",
+  "outcome_state": "PROCEEDED",
+  "recorded_at": "2026-06-25T14:31:00Z",
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "agent:example",
+    "public_key": "MCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=",
+    "signature": "+xjv4Yk0KqhXtJICElmwmI60/LKmn+qaYGYk6raKgirL6Zl6z86BfYcJxqKWFoY/poAWGbKXJkB1wxeIHcFkAg=="
+  }
+}

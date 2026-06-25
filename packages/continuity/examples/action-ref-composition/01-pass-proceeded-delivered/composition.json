@@ -1,0 +1,30 @@
+{
+  "_note": "Evaluator permitted; executor proceeded; SAR delivery receipt exists.",
+  "_cross_reference": {
+    "action_ref_join_primitive": "Action Commitment — see packages/sar-402/examples/action-commitment-composition/01-pass-delivered",
+    "sar_delivery_receipt": "packages/sar-402/examples/action-commitment-composition/01-pass-delivered/sar-receipt.json"
+  },
+  "trusted_keys": {
+    "_note": "Identity-to-signing-key binding: a verifier must hold the trusted Ed25519 public key for each signer identity (resolved out of band) and verify each receipt against it. These seed-derived keys are illustrative only.",
+    "evaluator": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    "executor": {
+      "identity": "agent:example",
+      "public_key_spki_der_b64": "MCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA="
+    }
+  },
+  "action_ref": "sha256:f18d1db3413a1e1bf7255ac11c1df6bef87cd1d36d7b05ced8f826e01d58fe7a",
+  "composition": {
+    "ok": true,
+    "actionRef": "sha256:f18d1db3413a1e1bf7255ac11c1df6bef87cd1d36d7b05ced8f826e01d58fe7a",
+    "joined": {
+      "evaluation": true,
+      "outcome": true,
+      "sar": true
+    },
+    "findings": [],
+    "appliedAssumptions": []
+  }
+}

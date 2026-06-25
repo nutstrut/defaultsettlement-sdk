@@ -1,0 +1,14 @@
+{
+  "schema_id": "ds.continuity_evaluation.v0.1",
+  "action_ref": "sha256:91ad5ff557ba7b6a7a49ea2f79106a2cf054d88c89165d8becdf01f863f290f0",
+  "evaluator_id": "agent:example",
+  "evaluation_state": "FAIL",
+  "policy_ref": "policy:default-settlement/sar-402-delivery-v1",
+  "evaluated_at": "2026-06-25T14:30:00Z",
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "agent:example",
+    "public_key": "MCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc=",
+    "signature": "/hzw0xiSnzApyocqzXwfBneEPKaxJlm01LIAlZcawkhvHXu+VeqAxwWFNO33k//E6P7bQ2Oie6d3puUTh5qxAw=="
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_id": "ds.execution_outcome.v0.1",
+  "action_ref": "sha256:91ad5ff557ba7b6a7a49ea2f79106a2cf054d88c89165d8becdf01f863f290f0",
+  "executor_id": "agent:example",
+  "outcome_state": "BLOCKED",
+  "recorded_at": "2026-06-25T14:31:00Z",
+  "reason": "policy_blocked",
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "agent:example",
+    "public_key": "MCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=",
+    "signature": "qr2WDncKMffIJi95pew6DaygO12jhhylgAGe+FhUAWs7cE/+BD8YX/IM3TK0HZflXIc6JLp7TC45UP5njPcLAg=="
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@defaultsettlement/continuity",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Default Settlement continuity composition layer: signed normative Continuity Evaluation Receipt and Execution Outcome Receipt records that compose with SAR-402 around a shared action_ref. A sibling/upper layer to SAR-402, not a child of it.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "default-settlement",
+    "continuity",
+    "evaluation-receipt",
+    "execution-outcome",
+    "action-ref",
+    "ed25519",
+    "sar-402"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
