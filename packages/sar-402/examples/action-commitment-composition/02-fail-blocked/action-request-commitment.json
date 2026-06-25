@@ -1,0 +1,13 @@
+{
+  "schema_id": "ds.action_request.v0.1",
+  "method": "POST",
+  "target": {
+    "scheme": "https",
+    "host": "api.example.com",
+    "port": null,
+    "path": "/demo/sar-402",
+    "query": {}
+  },
+  "content_type": "application/json",
+  "body_digest": "sha256:b7f50c6c5d0ec47453854a2f7300b436d1293b6bcbed09c1a58877952be77659"
+}

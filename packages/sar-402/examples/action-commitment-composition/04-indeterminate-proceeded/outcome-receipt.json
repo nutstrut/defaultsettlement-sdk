@@ -1,0 +1,8 @@
+{
+  "_non_normative": true,
+  "_note": "Illustrative outcome/execution receipt. NOT a normative Default Settlement outcome schema — present only to demonstrate action_ref composition. Must be individually signed; absence-as-proof requires complete outcome emission. Policy chose to proceed despite uncertainty.",
+  "schema_id": "illustrative.outcome_receipt.nonnormative",
+  "action_ref": "sha256:c1ae08f0f916b8ef9ea9effc2afe5cbc102ae3c5dfd3e0343de42b58593b0917",
+  "execution": "executed",
+  "recorded_at": "2026-06-25T12:00:01.000Z"
+}

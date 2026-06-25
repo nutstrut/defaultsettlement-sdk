@@ -1,0 +1,5 @@
+{
+  "_note": "Derived join metadata, NOT part of any canonical digest input. request_digest is derived from action-request-commitment.json; action_ref is derived from action-commitment.json. Every downstream record in this folder references this action_ref.",
+  "request_digest": "sha256:1ff15d6bcce82e19626404c121ca2d6e967a13411885a33530e7ab2897cd2f72",
+  "action_ref": "sha256:f18d1db3413a1e1bf7255ac11c1df6bef87cd1d36d7b05ced8f826e01d58fe7a"
+}

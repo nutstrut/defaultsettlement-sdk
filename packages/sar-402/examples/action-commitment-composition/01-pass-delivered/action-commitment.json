@@ -1,0 +1,7 @@
+{
+  "schema_id": "ds.action_commitment.v0.1",
+  "agent_id": "agent:example",
+  "action_type": "sar402.resource_delivery",
+  "request_digest": "sha256:1ff15d6bcce82e19626404c121ca2d6e967a13411885a33530e7ab2897cd2f72",
+  "idempotency_key": "idem_pass_001"
+}

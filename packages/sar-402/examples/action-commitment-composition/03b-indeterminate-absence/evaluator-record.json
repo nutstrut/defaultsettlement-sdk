@@ -1,0 +1,8 @@
+{
+  "_non_normative": true,
+  "_note": "Illustrative pre-execution evaluator record. NOT a normative Default Settlement continuity schema — present only to demonstrate action_ref composition. Must be individually signed to be trusted. Evaluator uncertainty recorded; NO downstream outcome or delivery record exists.",
+  "schema_id": "illustrative.continuity_evaluator_record.nonnormative",
+  "action_ref": "sha256:bb1da1b780f3c0e382ed061ff1d204f9328218bf3f40e4d942340ab5fbdc19bc",
+  "evaluator_verdict": "INDETERMINATE",
+  "evaluated_at": "2026-06-25T12:00:00.000Z"
+}

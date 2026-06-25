@@ -1,0 +1,30 @@
+{
+  "schema_id": "sar_402_settlement_v0.1",
+  "profile": "sar-402",
+  "sar_type": "Settlement Attestation Receipt",
+  "sar_verdict": "PASS",
+  "verification_point": "post_delivery",
+  "verification_mode": "record",
+  "authority_binding": {
+    "verifier_has_execution_authority": false,
+    "verifier_controls_resource_release": false,
+    "resource_server_controls_delivery": true,
+    "acting_party": "resource_server"
+  },
+  "payment_state": "verified",
+  "delivery_state": "confirmed",
+  "settlement_state": "delivered",
+  "delivery": {
+    "delivered_resource": "https://api.example.com/demo/sar-402",
+    "evidence_type": "http_response",
+    "status_code": 200,
+    "delivered_at": "2026-06-25T12:00:02.000Z"
+  },
+  "notes": "Delivery/settlement evidence only. The _ext.operation_binding envelope is an additive, non-authoritative correlation link to an Action Commitment. SAR does not assert policy authorization, payment finality, invoice correctness, or executor faithfulness.",
+  "_ext": {
+    "operation_binding": {
+      "schema_id": "ds.operation_binding.v0.1",
+      "action_ref": "sha256:c1ae08f0f916b8ef9ea9effc2afe5cbc102ae3c5dfd3e0343de42b58593b0917"
+    }
+  }
+}

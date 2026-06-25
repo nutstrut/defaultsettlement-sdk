@@ -50,6 +50,35 @@ export {
   DefaultVerifierError,
 } from './errors.js'
 
+export {
+  ACTION_REQUEST_SCHEMA_ID,
+  ACTION_COMMITMENT_SCHEMA_ID,
+  OPERATION_BINDING_SCHEMA_ID,
+  ActionCommitmentError,
+  canonicalizeContentType,
+  computeBodyDigest,
+  canonicalizeTarget,
+  buildActionRequestCommitment,
+  deriveRequestDigest,
+  validateAgentId,
+  validateActionType,
+  buildActionCommitment,
+  deriveActionRef,
+  buildOperationBinding,
+  operationBindingExt,
+  validateOperationBinding,
+} from './action-commitment.js'
+export type {
+  ActionRequestTarget,
+  ActionRequestCommitment,
+  ActionCommitment,
+  OperationBinding,
+  BodyInput,
+  TargetInput,
+  ActionRequestInput,
+  ActionCommitmentInput,
+} from './action-commitment.js'
+
 export { DEFAULT_AUTHORITY_BINDING } from './types.js'
 export type {
   Sar402Mode,
