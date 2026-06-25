@@ -1,0 +1,46 @@
+{
+  "name": "@defaultsettlement/key-bindings",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Define, sign, verify, and resolve Default Settlement Agent Key Binding Assertions: an optional published trust source that resolves an agent identity to a trusted Ed25519 public key. Not a registry, certificate authority, revocation system, or transparency log.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "default-settlement",
+    "key-binding",
+    "agent-key-binding-assertion",
+    "ed25519",
+    "publication-key",
+    "signed-record"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@defaultsettlement/canonical": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

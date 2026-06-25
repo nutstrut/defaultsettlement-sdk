@@ -1,0 +1,22 @@
+{
+  "schema_id": "ds.agent_key_binding_assertion.v0.1",
+  "version": 1,
+  "published_at": "2026-06-25T00:00:00Z",
+  "publisher": {
+    "id": "publisher:defaultsettlement",
+    "publication_key_fingerprint": "sha256:9064b45b3e0fb33b851a2e994e8bbf6f60ef5c1579301e88719cc13ae3153aec"
+  },
+  "bindings": [
+    {
+      "agent_id": "agent:morpheus",
+      "key_alg": "ed25519",
+      "public_key": "MCowBQYDK2VwAyEAVRVPQgZepaG+oFRjgmviaE65LfksEAAnqrquV8pVQgc="
+    }
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "publisher:defaultsettlement",
+    "public_key": "MCowBQYDK2VwAyEAvHy8tWNjdfodgkNNRmck2SN39TuYBpXdSdJtDOEiBaU=",
+    "signature": "MeJLT0o3yjpNC/s1BQsvVD1BGeCZrYjLIDdXhNUBQGvyr0bI9abH+xRmt5XNgIO0rrh319H1+WgLJFIqEDVVAQ=="
+  }
+}
