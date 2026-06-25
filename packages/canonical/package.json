@@ -1,8 +1,8 @@
 {
-  "name": "@defaultsettlement/continuity",
+  "name": "@defaultsettlement/canonical",
   "version": "0.1.0",
   "private": true,
-  "description": "Default Settlement continuity composition layer: signed normative Continuity Evaluation Receipt and Execution Outcome Receipt records that compose with SAR-402 around a shared action_ref. A sibling/upper layer to SAR-402, not a child of it.",
+  "description": "Neutral shared primitives for Default Settlement: deterministic canonical JSON, sha256 digests, digest/identity/action-type validators, content/body digesting, and Ed25519 signed-record envelope helpers. Does not provide key discovery or a public key registry.",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,21 +22,18 @@
   },
   "keywords": [
     "default-settlement",
-    "continuity",
-    "evaluation-receipt",
-    "execution-outcome",
-    "action-ref",
+    "canonical",
+    "jcs",
+    "rfc8785",
+    "sha256",
     "ed25519",
-    "sar-402"
+    "signed-record"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
-  },
-  "dependencies": {
-    "@defaultsettlement/canonical": "0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

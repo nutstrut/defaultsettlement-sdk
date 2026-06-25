@@ -32,7 +32,16 @@
  * canonicalization here.
  */
 
-import { canonicalJson, sha256Hex } from './normalize.js'
+import {
+  canonicalJson,
+  sha256Hex,
+  SHA256_DIGEST_RE,
+  validateAgentId as canonicalValidateAgentId,
+  validateActionType as canonicalValidateActionType,
+  canonicalizeContentType as canonicalCanonicalizeContentType,
+  computeBodyDigest as canonicalComputeBodyDigest,
+  CanonicalValidationError,
+} from '@defaultsettlement/canonical'
 import { Sar402Error } from './errors.js'
 
 // ---------------------------------------------------------------------------
@@ -47,24 +56,29 @@ export const OPERATION_BINDING_SCHEMA_ID = 'ds.operation_binding.v0.1' as const
 const DEFAULT_PORTS: Record<string, number> = { http: 80, https: 443 }
 
 const METHOD_RE = /^[A-Z]+$/
-const REQUEST_DIGEST_RE = /^sha256:[0-9a-f]{64}$/
+// Digest / identity / action-type validation now lives in the neutral
+// @defaultsettlement/canonical package; the `sha256:<hex>` shape is shared.
+const REQUEST_DIGEST_RE = SHA256_DIGEST_RE
 const ACTION_REF_RE = REQUEST_DIGEST_RE
-/**
- * Provisional `agent_id` rule for this package. The identity must be the same
- * scheme used by the signed records that reference the Action Commitment — for
- * current Default Settlement records that is the `agent:` namespaced form
- * (e.g. `agent:example`, `agent:x402:eip155:8453:0x…`). Freeform display names
- * and other URI schemes (`morpheus`, `did:morpheus`, …) are rejected so
- * `agent_id` cannot become another soft field inside the canonical digest. If a
- * shared agent-id validator is introduced for the repo, this rule should defer
- * to it.
- */
-const AGENT_ID_RE = /^agent:[a-z0-9]+(?::[A-Za-z0-9._-]+)*$/
-/** `action_type` must be a stable namespaced string, e.g. `sar402.resource_delivery`. */
-const ACTION_TYPE_RE = /^[a-z0-9]+(?:\.[a-z0-9_]+)+$/
 
 /** Thrown when an Action Request Commitment / Action Commitment input is invalid. */
 export class ActionCommitmentError extends Sar402Error {}
+
+/**
+ * Run a canonical helper, surfacing its {@link CanonicalValidationError} as an
+ * {@link ActionCommitmentError} so this module's public error type (and the
+ * downstream `catch`/`toThrow` contracts) stay unchanged after the extraction.
+ */
+function asActionCommitmentError<T>(fn: () => T): T {
+  try {
+    return fn()
+  } catch (err) {
+    if (err instanceof CanonicalValidationError) {
+      throw new ActionCommitmentError(err.message)
+    }
+    throw err
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -136,19 +150,11 @@ export interface ActionCommitmentInput {
 
 /**
  * Canonicalize a content type by lowercasing and stripping parameters.
- * `application/json; charset=utf-8` -> `application/json`.
+ * `application/json; charset=utf-8` -> `application/json`. Delegates to
+ * `@defaultsettlement/canonical`; behavior and output are unchanged.
  */
 export function canonicalizeContentType(contentType: string): string {
-  if (typeof contentType !== 'string' || contentType.trim() === '') {
-    throw new ActionCommitmentError('content_type is required')
-  }
-  return (contentType.split(';')[0] ?? '').trim().toLowerCase()
-}
-
-function toBytes(body?: BodyInput): Buffer {
-  if (body == null) return Buffer.alloc(0)
-  if (typeof body === 'string') return Buffer.from(body, 'utf8')
-  return Buffer.from(body)
+  return asActionCommitmentError(() => canonicalCanonicalizeContentType(contentType))
 }
 
 /**
@@ -158,24 +164,11 @@ function toBytes(body?: BodyInput): Buffer {
  * - canonical `application/json` -> parse JSON, JCS-canonicalize, SHA-256 the
  *   canonical bytes. Malformed JSON declared as JSON is invalid (throws).
  * - any other content type -> SHA-256 of the raw body bytes.
+ *
+ * Delegates to `@defaultsettlement/canonical`; digest outputs are unchanged.
  */
 export function computeBodyDigest(rawContentType: string, body?: BodyInput): string {
-  const bytes = toBytes(body)
-  if (bytes.length === 0) return sha256Hex(Buffer.alloc(0))
-  const ct = canonicalizeContentType(rawContentType)
-  if (ct === 'application/json') {
-    let parsed: unknown
-    try {
-      parsed = JSON.parse(bytes.toString('utf8'))
-    } catch {
-      throw new ActionCommitmentError(
-        'content_type is application/json but the body is not valid JSON; ' +
-          'the Action Request Commitment is invalid',
-      )
-    }
-    return sha256Hex(canonicalJson(parsed))
-  }
-  return sha256Hex(bytes)
+  return asActionCommitmentError(() => canonicalComputeBodyDigest(rawContentType, body))
 }
 
 // ---------------------------------------------------------------------------
@@ -294,20 +287,12 @@ function assertActionRequestCommitment(c: ActionRequestCommitment): void {
  * commitment to the agent identity those signed records assert.
  */
 export function validateAgentId(agentId: string): void {
-  if (typeof agentId !== 'string' || !AGENT_ID_RE.test(agentId)) {
-    throw new ActionCommitmentError(
-      `agent_id must use the agent: identity scheme (e.g. agent:example); got ${String(agentId)}`,
-    )
-  }
+  asActionCommitmentError(() => canonicalValidateAgentId(agentId))
 }
 
 /** Validate `action_type` format (namespaced, e.g. sar402.resource_delivery). */
 export function validateActionType(actionType: string): void {
-  if (typeof actionType !== 'string' || !ACTION_TYPE_RE.test(actionType)) {
-    throw new ActionCommitmentError(
-      `action_type must be a stable namespaced string (e.g. sar402.resource_delivery); got ${String(actionType)}`,
-    )
-  }
+  asActionCommitmentError(() => canonicalValidateActionType(actionType))
 }
 
 /**

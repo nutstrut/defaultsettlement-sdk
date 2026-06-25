@@ -37,6 +37,9 @@
     "test:watch": "vitest",
     "test:integration": "vitest run tests/integration.test.ts"
   },
+  "dependencies": {
+    "@defaultsettlement/canonical": "0.1.0"
+  },
   "peerDependencies": {
     "express": ">=4"
   },

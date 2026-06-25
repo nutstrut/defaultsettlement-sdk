@@ -322,11 +322,15 @@ details from `packages/sar-402/`. Continuity is a sibling / upper composition
 layer, not a child of SAR. There is no circular dependency, and SAR source does
 not own or validate continuity semantics.
 
-Because the repo currently has no neutral shared package, the small
-canonicalization helper (`sorted_keys_compact_v0`), the `sha256:` digest, the
-`agent:` identity validator, and the `action_ref` validator are **minimally
-duplicated** in `src/canonical.ts` rather than imported across the boundary. See
-the **Open question** below.
+The shared canonicalization helper (`sorted_keys_compact_v0`), the `sha256:`
+digest, the `agent:` identity validator, the `action_ref` validator, and the
+Ed25519 signed-record envelope now live in the neutral
+[`@defaultsettlement/canonical`](../canonical/README.md) package, which both
+this layer and SAR-402 depend on. `src/canonical.ts` and `src/signing.ts`
+re-export those primitives (wrapping the validators so failures still surface as
+`ContinuityRecordError` / `ContinuitySignatureError`) instead of duplicating the
+logic. The dependency direction is `continuity -> canonical`; there is no import
+back into SAR-402.
 
 ---
 
@@ -359,16 +363,17 @@ in `composition.json`, **not** an outcome receipt and **not** `NO_EMISSION`.
 
 ## Open question (flagged for review)
 
-The canonical-JSON helper, `sha256:` digest, `agent:` identity regex, and
-`action_ref` validator are now duplicated between SAR-402 and continuity (a
-minimal local duplication, chosen over a backwards source dependency from
-continuity into SAR). They should be extracted into a neutral shared workspace
-package (e.g. `@defaultsettlement/canonical`) that both packages depend on. That
-extraction is intentionally **out of scope** for this focused diff because it
-would touch SAR-402 source.
+The canonical-JSON helper, `sha256:` digest, `agent:` identity validator,
+`action_ref` validator, and the Ed25519 signed-record envelope have been
+extracted into the neutral [`@defaultsettlement/canonical`](../canonical/README.md)
+package that both SAR-402 and continuity now depend on, resolving the earlier
+duplication. SAR-402's `integrity` block remains a plain content digest (not a
+signature); the signed-record envelope this layer uses is the canonical package's
+shared envelope.
 
-Similarly, SAR-402 currently ships **no** Ed25519 signing/verification helper and
-no signed-record envelope (its `integrity` block is a plain content digest, not a
-signature). So this package **defines** the signing envelope for the continuity
-layer rather than conforming to an existing SAR signer. If a shared signed-record
-envelope is later introduced for the repo, this layer should defer to it.
+The **remaining** open question is public key discovery. The canonical package
+standardizes identity-to-signing-key binding but, by design, **does not provide a
+key registry or public key discovery** — a verifier must still resolve each
+signer identity to its trusted Ed25519 public key out of band. Building that
+registry / discovery layer is the next step and is intentionally out of scope
+here.

@@ -14,6 +14,10 @@
  */
 
 import { createHash } from 'node:crypto'
+// Canonical JSON + sha256 now live in the neutral @defaultsettlement/canonical
+// package. They are re-exported below as compatibility exports so existing
+// importers of `canonicalJson` / `sha256Hex` from this module keep working.
+import { canonicalJson, sha256Hex } from '@defaultsettlement/canonical'
 import {
   Amount,
   AuthorityBinding,
@@ -44,23 +48,12 @@ const DEFAULT_ISSUER = {
 // Canonicalization / integrity
 // ---------------------------------------------------------------------------
 
-/** Deterministic JSON: recursively sorted keys, compact separators. Not RFC 8785. */
-export function canonicalJson(value: unknown): string {
-  return JSON.stringify(sortKeys(value))
-}
-
-function sortKeys(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(sortKeys)
-  if (value && typeof value === 'object') {
-    const out: Record<string, unknown> = {}
-    for (const key of Object.keys(value as Record<string, unknown>).sort()) {
-      const v = (value as Record<string, unknown>)[key]
-      if (v !== undefined) out[key] = sortKeys(v)
-    }
-    return out
-  }
-  return value
-}
+/**
+ * Compatibility re-exports. `canonicalJson` / `sha256Hex` are now owned by
+ * `@defaultsettlement/canonical`; this module re-exports them unchanged so the
+ * SAR-402 public API (and digest outputs) stay byte-identical.
+ */
+export { canonicalJson, sha256Hex }
 
 /** sha256 over the canonical receipt (excluding the integrity block). */
 export function computeIntegrity(receiptWithoutIntegrity: object): Sar402Payload['integrity'] {
@@ -70,11 +63,6 @@ export function computeIntegrity(receiptWithoutIntegrity: object): Sar402Payload
     canonicalization: CANONICALIZATION,
     digest: `sha256:${digest}`,
   }
-}
-
-/** sha256 over a UTF-8 string, returned as `sha256:<hex>`. */
-export function sha256Hex(data: string | Buffer): string {
-  return 'sha256:' + createHash('sha256').update(data).digest('hex')
 }
 
 // ---------------------------------------------------------------------------
