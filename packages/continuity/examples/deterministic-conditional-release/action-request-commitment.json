@@ -1,0 +1,13 @@
+{
+  "schema_id": "ds.action_request.v0.1",
+  "method": "POST",
+  "target": {
+    "scheme": "https",
+    "host": "data.example",
+    "port": null,
+    "path": "/dataset-x/deliver",
+    "query": {}
+  },
+  "content_type": "application/json",
+  "body_digest": "sha256:e3c8dfe264870f680ab06f0a5598291c68d03d570dd39e8e5464120d61a9259d"
+}

@@ -1,0 +1,7 @@
+{
+  "schema_id": "ds.action_commitment.v0.1",
+  "agent_id": "agent:example",
+  "action_type": "ds.dataset_delivery",
+  "request_digest": "sha256:67a6ddb97a2e708bf6564498f0bddb990b09a4205b3cfc65f238ab7df0ba5f1d",
+  "idempotency_key": "dataset-x-delivery-2026-06-26-001"
+}

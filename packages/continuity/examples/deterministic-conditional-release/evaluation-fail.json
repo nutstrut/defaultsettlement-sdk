@@ -1,0 +1,33 @@
+{
+  "spec_id": "spec.dataset-x-delivery.2026-06-26",
+  "action_ref": "sha256:db0ebf039e7ead24850f23070c950b739d7347caa21bee05fda071d295964e2e",
+  "evaluator_type": "deterministic",
+  "result": "FAIL",
+  "checks": [
+    {
+      "kind": "field_present",
+      "status": "satisfied",
+      "observed": {
+        "dataset": "dataset-x",
+        "row_count": 740,
+        "generated_at": "2026-06-26T09:00:00Z"
+      }
+    },
+    {
+      "kind": "numeric_threshold",
+      "status": "unsatisfied",
+      "observed": 740,
+      "expected": {
+        "op": ">=",
+        "value": 1000
+      }
+    },
+    {
+      "kind": "content_type_equals",
+      "status": "satisfied",
+      "observed": "application/json",
+      "expected": "application/json"
+    }
+  ],
+  "declared_release_intent": "should withhold"
+}

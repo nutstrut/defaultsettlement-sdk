@@ -79,6 +79,22 @@ export type {
   ExecutionOutcomeInput,
 } from './execution-outcome.js'
 
+export {
+  evaluateAcceptanceSpec,
+  validateAcceptanceSpec,
+} from './deterministic-evaluator.js'
+export type {
+  EvaluationResult,
+  CheckStatus,
+  FailureBehavior,
+  CheckKind,
+  ThresholdOp,
+  AcceptanceCheck,
+  AcceptanceSpec,
+  CheckDetail,
+  EvaluationOutcome,
+} from './deterministic-evaluator.js'
+
 export { validateActionRefComposition } from './composition.js'
 export type {
   CompositionInput,

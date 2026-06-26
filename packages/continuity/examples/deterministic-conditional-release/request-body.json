@@ -1,0 +1,56 @@
+{
+  "method": "POST",
+  "target": "https://data.example/dataset-x/deliver",
+  "content_type": "application/json",
+  "ds_conditional_release": {
+    "profile_schema_id": "ds.conditional_release_profile.v0.1",
+    "intent": "Release access to dataset X only if the returned manifest is present, its row_count meets the committed threshold, and the content type is JSON.",
+    "acceptance_spec": {
+      "spec_id": "spec.dataset-x-delivery.2026-06-26",
+      "evaluator_type": "deterministic",
+      "checks": [
+        {
+          "kind": "field_present",
+          "inputs": {
+            "output_path": "$.manifest"
+          },
+          "expected": null,
+          "external_refs": {},
+          "failure_behavior": "FAIL"
+        },
+        {
+          "kind": "numeric_threshold",
+          "inputs": {
+            "output_path": "$.manifest.row_count"
+          },
+          "expected": {
+            "op": ">=",
+            "value": 1000
+          },
+          "external_refs": {},
+          "failure_behavior": "FAIL"
+        },
+        {
+          "kind": "content_type_equals",
+          "inputs": {
+            "output_path": "$.headers.content_type"
+          },
+          "expected": "application/json",
+          "external_refs": {},
+          "failure_behavior": "FAIL"
+        }
+      ]
+    },
+    "release_policy": {
+      "release_on": "PASS",
+      "withhold_on": "FAIL",
+      "manual_review_on": "INDETERMINATE",
+      "timeout_behavior": "manual_review"
+    },
+    "evidence_expectations": {
+      "continuity_evaluation_receipt": "required",
+      "sar_referencing_action_ref": "required",
+      "execution_outcome_receipt": "required"
+    }
+  }
+}

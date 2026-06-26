@@ -1,0 +1,11 @@
+{
+  "headers": {
+    "content_type": "application/json"
+  },
+  "status_code": 200,
+  "manifest": {
+    "dataset": "dataset-x",
+    "row_count": 1200,
+    "generated_at": "2026-06-26T09:00:00Z"
+  }
+}
