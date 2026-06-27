@@ -53,6 +53,22 @@ describe('Continuity Evaluation Receipt — core', () => {
     expect(() => buildContinuityEvaluationCore(input({ evaluatedAt: '' }))).toThrow(/evaluated_at/)
     expect(() => buildContinuityEvaluationCore(input({ evaluatedAt: 'not-a-date' }))).toThrow(/evaluated_at/)
   })
+
+  it('omits reason_code for clean PASS/FAIL cores (no noisy generic codes)', () => {
+    const core = buildContinuityEvaluationCore(input({ evaluationState: 'PASS' }))
+    expect('reason_code' in core).toBe(false)
+  })
+
+  it('includes reason_code when present (INDETERMINATE boundary case)', () => {
+    const core = buildContinuityEvaluationCore(
+      input({ evaluationState: 'INDETERMINATE', reasonCode: 'MISSING_ACCEPTANCE_SPEC' }),
+    )
+    expect(core.reason_code).toBe('MISSING_ACCEPTANCE_SPEC')
+  })
+
+  it('rejects an empty reason_code when the field is present', () => {
+    expect(() => buildContinuityEvaluationCore(input({ reasonCode: '' }))).toThrow(/reason_code/)
+  })
 })
 
 describe('Continuity Evaluation Receipt — signing', () => {
@@ -78,6 +94,21 @@ describe('Continuity Evaluation Receipt — signing', () => {
     // Signed by the attacker key, but verified against the legitimate evaluator key.
     const receipt = signContinuityEvaluationReceipt(input(), attacker.privateKey)
     expect(() => verifyContinuityEvaluationReceipt(receipt, evaluator.publicKey)).toThrow(ContinuitySignatureError)
+  })
+
+  it('signs reason_code inside the signed core (JCS signing input)', () => {
+    const { publicKey, privateKey } = keypair()
+    const receipt = signContinuityEvaluationReceipt(
+      input({ evaluationState: 'INDETERMINATE', reasonCode: 'INVALID_ACCEPTANCE_SPEC' }),
+      privateKey,
+    )
+    // Present in the signed record and verifies cleanly.
+    expect(receipt.reason_code).toBe('INVALID_ACCEPTANCE_SPEC')
+    const core = verifyContinuityEvaluationReceipt(receipt, publicKey)
+    expect(core.reason_code).toBe('INVALID_ACCEPTANCE_SPEC')
+    // Tampering with reason_code breaks verification -> it is in the signing input.
+    const tampered = { ...receipt, reason_code: 'SOMETHING_ELSE' }
+    expect(() => verifyContinuityEvaluationReceipt(tampered, publicKey)).toThrow(ContinuitySignatureError)
   })
 
   it('fails verification when key_id does not equal evaluator_id', () => {

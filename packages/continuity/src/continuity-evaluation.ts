@@ -60,6 +60,24 @@ export interface ContinuityEvaluationCore {
    * be used to join retries (retry-stable joining is via `action_ref`).
    */
   evaluated_at: string
+  /**
+   * OPTIONAL stable reason code. Present ONLY when absence/uncertainty is itself
+   * the audit conclusion — i.e. a committed-action boundary case that routes to
+   * `evaluation_state: INDETERMINATE`:
+   *
+   *   MISSING_CONDITIONAL_RELEASE_PROFILE — committed action carried no
+   *                                         conditional-release profile.
+   *   MISSING_ACCEPTANCE_SPEC             — committed profile carried no
+   *                                         acceptance_spec.
+   *   INVALID_ACCEPTANCE_SPEC             — committed acceptance_spec was
+   *                                         malformed / invalid shape.
+   *
+   * Clean PASS/FAIL receipts OMIT this field entirely — no noisy generic
+   * PASS/FAIL reason codes. When present it is part of the signed core and is
+   * therefore included in the JCS signing input (it is not a join key and must
+   * not affect `action_ref`).
+   */
+  reason_code?: string
 }
 
 /** A signed Continuity Evaluation Receipt: canonical core + signature envelope. */
@@ -71,11 +89,20 @@ export interface ContinuityEvaluationInput {
   evaluationState: EvaluationState
   policyRef: string
   evaluatedAt: string
+  /** Optional stable reason code; see {@link ContinuityEvaluationCore.reason_code}. */
+  reasonCode?: string
 }
 
 function validatePolicyRef(policyRef: unknown): void {
   if (typeof policyRef !== 'string' || policyRef.trim() === '') {
     throw new ContinuityRecordError('policy_ref is required and must be a non-empty stable string reference')
+  }
+}
+
+function validateReasonCode(reasonCode: unknown): void {
+  if (reasonCode === undefined) return
+  if (typeof reasonCode !== 'string' || reasonCode === '') {
+    throw new ContinuityRecordError('reason_code, when present, must be a non-empty string')
   }
 }
 
@@ -90,7 +117,8 @@ export function buildContinuityEvaluationCore(input: ContinuityEvaluationInput):
   }
   validatePolicyRef(input.policyRef)
   validateTimestamp(input.evaluatedAt, 'evaluated_at')
-  return {
+  validateReasonCode(input.reasonCode)
+  const core: ContinuityEvaluationCore = {
     schema_id: CONTINUITY_EVALUATION_SCHEMA_ID,
     action_ref: input.actionRef,
     evaluator_id: input.evaluatorId,
@@ -98,6 +126,12 @@ export function buildContinuityEvaluationCore(input: ContinuityEvaluationInput):
     policy_ref: input.policyRef,
     evaluated_at: input.evaluatedAt,
   }
+  // Include reason_code in the signed core ONLY when present, so it is part of
+  // the JCS signing input. Clean PASS/FAIL cores omit it (Option A).
+  if (input.reasonCode !== undefined) {
+    core.reason_code = input.reasonCode
+  }
+  return core
 }
 
 /** Validate an already-formed Continuity Evaluation Receipt core. */
@@ -117,6 +151,7 @@ export function validateContinuityEvaluationCore(core: ContinuityEvaluationCore)
   }
   validatePolicyRef(core.policy_ref)
   validateTimestamp(core.evaluated_at, 'evaluated_at')
+  validateReasonCode(core.reason_code)
 }
 
 /**
