@@ -11,6 +11,19 @@ SAR. It lets independent verifiers **join**, by the same stable `action_ref`:
 
 > **Action Commitment closes the correlation gap, not the execution-faithfulness gap.**
 
+A matching `action_ref` (shared join key) establishes only that the records are
+correlated to the same intended/logical action. It does **not** by itself
+establish:
+
+- that execution occurred,
+- that either record faithfully describes execution,
+- that execution was independently observed,
+- completeness of the execution record, or
+- independent corroboration merely because the records agree.
+
+If both records are authored by the same party, agreement between them does not
+become independent corroboration.
+
 Meaning:
 
 - Action Commitment **proves records are joinable** around the same committed
@@ -211,6 +224,14 @@ does exactly this.
 | 3b | `03b-indeterminate-absence` | `INDETERMINATE` | unknown | ❌ none; **no outcome receipt** → audit gap |
 | 4 | `04-indeterminate-proceeded` | `INDETERMINATE` | policy proceeds | ✅ present + outcome receipt |
 | 5 | `05-evaluator-timeout` | `EVALUATOR_TIMEOUT` | unknown | ❌ none; **no downstream evidence** → audit gap |
+
+**Note on `04-indeterminate-proceeded`.** The evaluator record in this fixture
+records the `INDETERMINATE` verdict but does not contain an uncertainty reason.
+The fixture therefore demonstrates that uncertainty was recorded, not why the
+evaluator was uncertain. Reason binding via the SAR `reason_code` mechanism is a
+separate mechanism and is not exercised by this fixture. (The evaluator record
+here is illustrative and non-normative; see the signed continuity counterpart in
+`packages/continuity/examples/action-ref-composition/`.)
 
 Scenarios **3a** and **3b** are deliberately split:
 
