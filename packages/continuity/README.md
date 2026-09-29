@@ -16,6 +16,19 @@ independent verifier **join** — through the same `action_ref` —
 
 > **Action Commitment closes the correlation gap, not the execution-faithfulness gap.**
 
+A matching `action_ref` (shared join key) establishes only that the records are
+correlated to the same intended/logical action. It does **not** by itself
+establish:
+
+- that execution occurred,
+- that either record faithfully describes execution,
+- that execution was independently observed,
+- completeness of the execution record, or
+- independent corroboration merely because the records agree.
+
+If both records are authored by the same party, agreement between them does not
+become independent corroboration.
+
 > **Absence of an Execution Outcome Receipt is a verifier finding, not an outcome state.**
 
 ---
@@ -354,6 +367,12 @@ npx tsx packages/continuity/examples/action-ref-composition/derive.ts
 | `03-indeterminate-blocked`        | `INDETERMINATE`     | `BLOCKED`     | no                   |
 | `04-indeterminate-proceeded`      | `INDETERMINATE`     | `PROCEEDED`   | yes (cross-ref)      |
 | `05-evaluator-timeout-audit-gap`  | `EVALUATOR_TIMEOUT` | *(none)*      | no — **audit gap**   |
+
+**Note on `04-indeterminate-proceeded`.** The signed continuity evaluation
+artifact binds the `INDETERMINATE` evaluation state. This fixture does not
+contain or bind an uncertainty reason, so it demonstrates that uncertainty was
+recorded, not why the evaluator was uncertain. Later SAR `reason_code` support is
+a separate mechanism and is not exercised by this fixture.
 
 Scenario 05 emits **no** Execution Outcome Receipt: the missing outcome is a
 verifier finding (`missing_execution_outcome_receipt`, `kind: audit_gap`) recorded
